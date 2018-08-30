@@ -84,6 +84,19 @@ class LinkedList {
     }
   }
 
+  addCycle(item) {
+    if (this.head === null) {
+      this.insertFirst(item);
+    }
+    else {
+      let tempNode = this.head;
+      while (tempNode.next !== null) {
+        tempNode = tempNode.next;
+      }
+      tempNode.next = new _Node(item, this.head);
+    }
+  }
+
   find(item) { 
     //start at the head
     let currNode = this.head;
@@ -193,16 +206,18 @@ const main = () => {
   SLL.insertFirst('Boomer');
   SLL.insertLast('Tauhida');
   SLL.insertFirst('Squirrel');
-  SLL.remove('Squirrel');
+//   SLL.remove('Squirrel');
   // SLL.insertBefore('before', 'Husker');
   // SLL.insertAt('insertValue', 1);
  
   // console.log(SLL.findPrevious('Starbuck'));
-  console.log(SLL.display());
+//   console.log(SLL.display());
+//   console.log(middleOfList(SLL));
+// console.log(cycle(SLL));
   // WhatDoesThisProgramDo(SLL);
-  reverseSLL(SLL);
-  console.log(SLL.display());
-
+//   reverseSLL(SLL);
+//   console.log(thirdFromEnd(SLL));
+//   console.log(SLL.display());
   return SLL;
 };
 
@@ -222,6 +237,56 @@ function reverseSLL(lst) {
 
   lst.head = previous;
   return lst;
+}
+
+function thirdFromEnd(lst) {
+    let length = lst.size();
+    let itemCount = length - 3;
+    let counter = 0;
+    let curNode = lst.head;
+    while (counter < itemCount) {
+        counter ++;
+        curNode = curNode.next;
+    }
+    return curNode;
+}
+
+function middleOfList(lst) {
+    let length = lst.size();
+    let itemCount = Math.ceil(length / 2);
+    let counter = 1;
+    let curNode = lst.head;
+    while (counter < itemCount) {
+        counter ++;
+        curNode = curNode.next;
+    }
+    return curNode;
+}
+
+const cycleMaker = () => {
+    let cycleList = new LinkedList();
+    cycleList.insertFirst("red");
+    cycleList.insertLast("blue");
+    cycleList.insertLast("green");
+    cycleList.addCycle("brown");
+    console.log(cycle(cycleList))
+    return cycleList;
+}
+console.log(cycleMaker());
+// console.log(cycleMaker().display());
+
+
+function cycle(clst) {
+    let pointer1 = clst.head;
+    let pointer2 = clst.head.next;
+    while(pointer1 !== pointer2 && pointer2 !== null){
+        pointer1 = pointer1.next;
+        pointer2 = pointer2.next.next;
+    }
+    if(pointer1 === pointer2){
+        return true;
+    }
+    return false;
 }
 
 
